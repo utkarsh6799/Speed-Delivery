@@ -16,8 +16,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/getapirough','ProfileController@index');
-Route::post('/createuser','ProfileController@create');
-Route::post('/createuserprofile','ProfileController@addmore');
-
+//Route::get('/getapirough','ProfileController@index');
+Route::post('/Register','ProfileController@create');
+Route::post('/addMore','ProfileController@addMore');
+Route::post('/addRole','RoleController@create');
+Route::get('/login','ProfileController@login');
 //Route::get('/getuserapi/{id}','ProfileController@datadisplayapiVid');

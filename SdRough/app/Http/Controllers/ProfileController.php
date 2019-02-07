@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 use  App\User;
-
 use App\Profile;
 use Illuminate\Http\Request;
 
@@ -13,8 +12,38 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){}
-    public function addmore(Request $request)
+
+
+    public function create(Request $request)
+    {
+        $user=new User();
+
+        $user->name=$request->input('name');
+        $user->email=$request->input('email');
+        $user->password=$request->input('password');
+
+        $user->save();
+        echo "data insertion sucessful";
+        //return response()->json($user);
+    }
+
+
+    public function login(Request $request)
+    {
+
+        $email=$request->input('email');
+        $password=$request->input('password');
+        $data=DB::select('select id,token from user where email=? and password=?',[$email,$password]);
+        if(count($data))
+        {
+            echo"sucessful";
+        }
+        else
+        {
+            echo"not sucessful";
+        }
+    }
+    public function addMore(Request $request)
     {
         $profile=new Profile;
         $profile->name=$request->input('name');
@@ -22,7 +51,7 @@ class ProfileController extends Controller
         $profile->phone=$request->input('phone');
         $profile->slug=$request->input('slug');
         $profile->save();
-return response()->json($profile);
+        return response()->json($profile);
         //
 //        $demodata=[
 //            'id'=>'1',
@@ -51,17 +80,7 @@ public function datadisplayapi()
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
-    {
-        $user=new User();
 
-        $user->name=$request->input('name');
-        $user->email=$request->input('email');
-        $user->password=$request->input('password');
-
-        $user->save();
-        return response()->json($user);
-    }
 
     /**
      * Store a newly created resource in storage.

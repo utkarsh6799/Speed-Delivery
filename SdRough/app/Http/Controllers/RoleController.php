@@ -22,11 +22,16 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
-    }
+        $role=new Role();
 
+        $role->email=$request->input('email');
+        $role->description=$request->input('description');
+
+        $role->save();
+        return response()->json($role);
+    }
     /**
      * Store a newly created resource in storage.
      *
