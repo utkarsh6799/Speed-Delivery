@@ -1,5 +1,5 @@
 <?php
-
+//Laravel\Passport\PassportServiceProvider::class,
 return [
 
     /*

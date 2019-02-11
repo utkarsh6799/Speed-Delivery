@@ -18,7 +18,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 //Route::get('/getapirough','ProfileController@index');
 Route::post('/Register','ProfileController@create');
-Route::post('/addMore','ProfileController@addMore');
+Route::post('/createProfile','ProfileController@addMore');
 Route::post('/addRole','RoleController@create');
 Route::get('/login','ProfileController@login');
 //Route::get('/getuserapi/{id}','ProfileController@datadisplayapiVid');
+Route::group(['middleware'=>'auth:api'],function(){
+    Route::apiResource('details', 'API\UserController');
+});
+Route::group(['middleware'=>'auth:api'],function(){
+   // Route::apiResource('events', 'ProfileController',['except' => ['index','show']]);
+    Route::post('get-details', 'API\ProfileController@create');
+});

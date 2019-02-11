@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 use  App\User;
 use App\Profile;
 use Illuminate\Http\Request;
-
+use Validator;
 class ProfileController extends Controller
 {
+public  $successStatus=200;
     /**
      * Display a listing of the resource.
      *
@@ -16,16 +17,37 @@ class ProfileController extends Controller
 
     public function create(Request $request)
     {
-        $user=new User();
 
-        $user->name=$request->input('name');
-        $user->email=$request->input('email');
-        $user->password=$request->input('password');
-
-        $user->save();
-        echo "data insertion sucessful";
-        //return response()->json($user);
+//        $user=new User();
+//
+//        $user->name=$request->input('name');
+//        $user->email=$request->input('email');
+//        $user->password=$request->input('password');
+//        //$user->token=shal(time());
+//        $user->save();
+//        echo "data insertion sucessful";
+       // //return response()->json($user);
+    //***************
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
+            'c_password' => 'required|same:password'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()], 401);
+        }
+        $input = $request->all();
+        $input['name']=$input['name'];
+        $input['email']=$input['email'];
+        $input['password'] = bcrypt($input['password']);
+        $input['email_verified_at']=User::UNVERIFIED_USER;
+        $input['remember_token']=User::getverificationtoken();
+        $user = User::create($input);
+        $success['message'] = "user registered,first verify ur acoount to login";
+        return response()->json(['success'=>$success], $this->successStatus);
     }
+
 
 
     public function login(Request $request)
