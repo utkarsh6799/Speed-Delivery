@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 use  App\User;
 use App\Profile;
+
 use Illuminate\Http\Request;
 use Validator;
+use App\Jobs\SendVerificationEmail;
 class ProfileController extends Controller
 {
 public  $successStatus=200;
@@ -28,6 +30,7 @@ public  $successStatus=200;
 //        echo "data insertion sucessful";
        // //return response()->json($user);
     //***************
+
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email',
@@ -43,8 +46,9 @@ public  $successStatus=200;
         $input['password'] = bcrypt($input['password']);
         $input['email_verified_at']=User::UNVERIFIED_USER;
         $input['remember_token']=User::getverificationtoken();
+
         $user = User::create($input);
-        $success['message'] = "user registered,first verify ur acoount to login";
+        $success['message'] = "user registered,first verify ur account to login";
         return response()->json(['success'=>$success], $this->successStatus);
     }
 
