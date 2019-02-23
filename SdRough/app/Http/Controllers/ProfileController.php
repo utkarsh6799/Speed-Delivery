@@ -5,6 +5,7 @@ use  App\User;
 use App\Profile;
 use Illuminate\Http\Request;
 use Validator;
+use App\Http\Resources\User as UserResource;
 class ProfileController extends Controller
 {
 public  $successStatus=200;
@@ -121,9 +122,45 @@ public function datadisplayapi()
      * @param  \App\Profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function show(Profile $profile)
+    public function showUser()
+    {
+        $user=User::all();
+        return UserResource::collection($user);
+    }
+//    public function showProductById()
+//    {
+//        $user=User::all();
+//        return UserResource::collection($user);
+//    }
+    public function showUserById($id)
+    {
+        $user=User::find($id);
+        if($user)
+        {
+            return new UserResource($user);
+        }
+          else
+          {
+              return response()->json(['Error'=>'There is no data available on this id: '.$id.''],404);
+          }
+    }
+
+    public function block(Profile $profile)
     {
         //
+    }
+    public function delete($id)
+    {
+        $user=User::find($id);
+        if($user)
+        {
+            $user->delete();
+            return new UserResource($user);
+        }
+        else
+        {
+            return response()->json(['Error'=>'There is no data available on delete id: '.$id.''],404);
+        }
     }
 
     /**
@@ -144,9 +181,23 @@ public function datadisplayapi()
      * @param  \App\Profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Profile $profile)
+    public function updateUser(Profile $profile,$id,Request $request)
     {
-        //
+        $user=User::find($id);
+        if($user)
+        {
+            $user->name=$request->input('name');
+            $user->email=$request->input('email');
+            $user->password=$request->input('password');
+
+            $user->save();
+
+            return new UserResource($user);
+        }
+        else
+        {
+            return response()->json(['Error'=>'There is no data available on this id: '.$id.''],404);
+        }
     }
 
     /**

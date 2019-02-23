@@ -7,6 +7,7 @@ return [
     | Mail Driver
     |--------------------------------------------------------------------------
     |
+    |
     | Laravel supports both SMTP and PHP's "mail" function as drivers for the
     | sending of e-mail. You may specify which one you're using throughout
     | your application here. By default, Laravel is setup for SMTP mail.
@@ -54,9 +55,13 @@ return [
     | used globally for all e-mails that are sent by your application.
     |
     */
+    'mailgun' => [
+        'domain' => 'your-mailgun-domain',
+        'secret' => 'your-mailgun-key',
+    ],
 
     'from' => [
-        'address' => env('f7f5244bf6f0e0'),
+        'address' => env('adityaguptagkp30@gmail.com'),
         'name' => env('speed cart'),
     ],
 
@@ -84,9 +89,9 @@ return [
     |
     */
 
-    'username' => env('f7f5244bf6f0e0'),
+    'username' => env('MAIL_USERNAME'),
 
-    'password' => env('84818af6759ad4'),
+    'password' => env('MAIL_PASSWORD'),
 
     /*
     |--------------------------------------------------------------------------

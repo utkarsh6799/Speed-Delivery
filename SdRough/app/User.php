@@ -19,7 +19,8 @@ class User extends Authenticatable
      */
     protected $table='users';
     protected $fillable = [
-        'id','name', 'email','password','email_verified_at'
+        'id','name', 'email','password'
+        ,'email_verified_at'
     ];
 
     /**
@@ -29,7 +30,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-         'remember_token'
+        'remember_token'
     ];
     public static function getverificationtoken()
     {

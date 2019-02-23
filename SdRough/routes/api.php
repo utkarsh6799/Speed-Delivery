@@ -20,6 +20,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/Register','ProfileController@create');
 Route::post('/createProfile','ProfileController@addMore');
 Route::post('/addRole','RoleController@create');
+Route::put('/block','ProfileController@block');
+Route::get('/showUser','ProfileController@showUser');
+Route::get('/showUserById/{id}','ProfileController@showUserById');
+Route::delete('/delete/{id}','ProfileController@delete');
+//->Route::get('/showProduct/{id}','ProfileController@showProductById');
+Route::put('/updateUser/{id}','ProfileController@updateUser');
+
 Route::get('/login','ProfileController@login');
 //Route::get('/getuserapi/{id}','ProfileController@datadisplayapiVid');
 Route::group(['middleware'=>'auth:api'],function(){
