@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Order;
+use App\Model\Review;
 use Illuminate\Http\Request;
 
-class OrderController extends Controller
+class ReviewController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,18 +22,9 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
         //
-        $order=new Order();
-        $order->user_id=$request->input('user_id');
-        $order->product_id=$request->input('product_id');
-        $order->qty=$request->input('qty');
-        $order->status=$request->input('status');
-        $order->price=$request->input('price');
-        $order->payment_id=$request->input('payment_id');
-
-
     }
 
     /**
@@ -50,10 +41,10 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Order  $order
+     * @param  \App\Model\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)
+    public function show(Review $review)
     {
         //
     }
@@ -61,10 +52,10 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Order  $order
+     * @param  \App\Model\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function edit(Order $order)
+    public function edit(Review $review)
     {
         //
     }
@@ -73,10 +64,10 @@ class OrderController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Order  $order
+     * @param  \App\Model\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
+    public function update(Request $request, Review $review)
     {
         //
     }
@@ -84,10 +75,10 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Order  $order
+     * @param  \App\Model\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order)
+    public function destroy(Review $review)
     {
         //
     }

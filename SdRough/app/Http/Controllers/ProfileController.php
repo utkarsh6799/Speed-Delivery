@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use  App\User;
 use App\Profile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Http\Resources\User as UserResource;
 class ProfileController extends Controller
@@ -51,19 +52,34 @@ public  $successStatus=200;
 
 
 
-    public function login(Request $request)
+    public function login()
     {
 
-        $email=$request->input('email');
-        $password=$request->input('password');
-        $data=DB::select('select id,token from user where email=? and password=?',[$email,$password]);
-        if(count($data))
-        {
-            echo"sucessful";
-        }
-        else
-        {
-            echo"not sucessful";
+//        $email=$request->input('email');
+//        $password=$request->input('password');
+//        $data=DB::select('select id,token from user where email=? and password=?',[$email,$password]);
+//        if(count($data))
+//        {
+//            echo"sucessful";
+//        }
+//        else
+//        {
+//            echo"not sucessful";
+//        }
+        if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
+             $user= Auth::User();
+//            if($user->verified==User::VERIFIED_USER)
+//            {
+                $success['token'] =  $user->createToken('MyApp')-> accessToken;
+                $success['id'] =$user->id;
+                return response()->json(['success' => $success], $this->successStatus);
+            }
+//            else {
+//                return response()->json(['data'=>'verify to login'], 200);
+//            }
+
+        else{
+            return response()->json(['error'=>'Unauthorised'], 401);
         }
     }
     public function addMore(Request $request)
@@ -145,9 +161,32 @@ public function datadisplayapi()
           }
     }
 
-    public function block(Profile $profile)
+    public function block(Profile $profile,$id,Request $request)
     {
         //
+        $user=User::find($id);
+        if($user)
+        {
+            $user->block=$request->input();
+        }
+    }
+    public function updateUser(Profile $profile,$id,Request $request)
+    {
+        $user=User::find($id);
+        if($user)
+        {
+            $user->name=$request->input('name');
+            $user->email=$request->input('email');
+            $user->password=$request->input('password');
+
+            $user->save();
+
+            return new UserResource($user);
+        }
+        else
+        {
+            return response()->json(['Error'=>'There is no data available on this id: '.$id.''],404);
+        }
     }
     public function delete($id)
     {
@@ -181,24 +220,7 @@ public function datadisplayapi()
      * @param  \App\Profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function updateUser(Profile $profile,$id,Request $request)
-    {
-        $user=User::find($id);
-        if($user)
-        {
-            $user->name=$request->input('name');
-            $user->email=$request->input('email');
-            $user->password=$request->input('password');
 
-            $user->save();
-
-            return new UserResource($user);
-        }
-        else
-        {
-            return response()->json(['Error'=>'There is no data available on this id: '.$id.''],404);
-        }
-    }
 
     /**
      * Remove the specified resource from storage.

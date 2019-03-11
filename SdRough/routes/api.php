@@ -17,18 +17,20 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 //Route::get('/getapirough','ProfileController@index');
-Route::post('/Register','ProfileController@create');
-Route::post('/createProfile','ProfileController@addMore');
-Route::post('/addRole','RoleController@create');
-Route::put('/block','ProfileController@block');
-Route::get('/showUser','ProfileController@showUser');
-Route::get('/showUserById/{id}','ProfileController@showUserById');
-Route::delete('/delete/{id}','ProfileController@delete');
+Route::post('/Register','ProfileController@create');//WORKING
+Route::post('/createProfile','ProfileController@addMore');//WORKING
+Route::post('/addRole','RoleController@create');//NOT WORKING
+Route::put('/block/{id}','ProfileController@block');//NOT TESTED
+Route::get('/showUser','ProfileController@showUser');//WORKING
+Route::get('/showUserById/{id}','ProfileController@showUserById');//WORKING
+Route::delete('/delete/{id}','ProfileController@delete');//WORKING
 //->Route::get('/showProduct/{id}','ProfileController@showProductById');
-Route::put('/updateUser/{id}','ProfileController@updateUser');
+Route::put('/updateUser/{id}','ProfileController@updateUser');//WORKING
 
-Route::get('/login','ProfileController@login');
+Route::post('/login','ProfileController@login');//LEFT
 //Route::get('/getuserapi/{id}','ProfileController@datadisplayapiVid');
+Route::get('/createOrder','OrderController@request');//LEFT
+
 Route::group(['middleware'=>'auth:api'],function(){
     Route::apiResource('details', 'API\UserController');
 });
